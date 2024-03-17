@@ -12,11 +12,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-export default function NavListMenu({ navListMenuItems }) {
+export default function NavListMenu({ navListMenuItems, role }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const role = "doctor";
-  const link = role === "doctor" ? "/doctor/" : "/";
+
+  const link = role === "doctor" ? "/doctor/" : "/patient/";
   // eslint-disable-next-line react/prop-types
   const renderItems = navListMenuItems.map(
     ({ icon, title, description }, key) => (

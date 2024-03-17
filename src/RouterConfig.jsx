@@ -8,6 +8,11 @@ import Reviews from "./comp/DR/Reviews/Reviews.jsx";
 import Invoices from "./comp/DR/Invoices/Invoices.jsx";
 import Contact from "./comp/DR/Contact/Contact.jsx";
 import DashBoardDR from "./comp/DR/dashboardDR/DashBoardDR.jsx";
+import LayoutPatient from "./comp/Layout/LayoutPatient.jsx";
+import PatientDashboard from "./comp/Patient/patient-dashboard/PatientDashboard.jsx";
+import ProfileSitting from "./comp/Patient/ProfileSetting/ProfileSetting.jsx";
+import ChangePassword from "./comp/Patient/ChangePassword/ChangePassword.jsx";
+import SerarchDR from "./comp/Patient/SearchDr/SerarchDR.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -32,8 +37,8 @@ export const router = createBrowserRouter([
             element: <Appointments />,
           },
           {
-            path: "profile",
-            element: <div>profile</div>,
+            path: "profile-settings",
+            element: <div>profile dr</div>,
           },
           {
             path: "reviews",
@@ -48,8 +53,36 @@ export const router = createBrowserRouter([
             element: <Contact />,
           },
           {
-            path: "doctor-dashboard",
+            path: "dashboard",
             element: <DashBoardDR />,
+          },
+          {
+            path: "change-password",
+            element: <h3>doctor change password</h3>,
+          },
+        ],
+      },
+      {
+        path: "search-doctor",
+        element: <SerarchDR />,
+      },
+      {
+        path: "/patient",
+        element: <LayoutPatient />,
+        children: [
+          {
+            path: "dashboard",
+            element: <PatientDashboard />,
+          },
+
+          {
+            path: "profile-settings",
+            element: <ProfileSitting />,
+          },
+
+          {
+            path: "change-password",
+            element: <ChangePassword />,
           },
         ],
       },

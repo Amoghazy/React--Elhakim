@@ -8,49 +8,10 @@ import {
   ListItem,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  Bars4Icon,
-  GlobeAmericasIcon,
-  PhoneIcon,
-  SquaresPlusIcon,
-  SunIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/solid";
-import ProfileMenu from "./ProfileMenue.jsx";
-import NavListMenu from "./NavList.jsx";
 
-const navListMenuItems = [
-  {
-    title: "Reviews",
-    description: "Find the perfect solution for your needs.",
-    icon: SquaresPlusIcon,
-  },
-  {
-    title: "Patients List",
-    description: "Meet and learn about our dedication",
-    icon: UserGroupIcon,
-  },
-  {
-    title: "Appointments",
-    description: "Find the perfect solution for your needs.",
-    icon: Bars4Icon,
-  },
-  {
-    title: "Dashboard",
-    description: "Learn how we can help you achieve your goals.",
-    icon: SunIcon,
-  },
-  {
-    title: "Invoices",
-    description: "Reach out to us for assistance or inquiries",
-    icon: GlobeAmericasIcon,
-  },
-  {
-    title: "Contact",
-    description: "Find the perfect solution for your needs.",
-    icon: PhoneIcon,
-  },
-];
+import ProfileMenu from "./ProfileMenue.jsx";
+
+import { Link } from "react-router-dom";
 
 function NavList() {
   return (
@@ -64,23 +25,33 @@ function NavList() {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
       </Typography>
-      <NavListMenu navListMenuItems={navListMenuItems} role="doctor" />
+
       <Typography
-        as="a"
+        as="span"
+        variant="small"
+        color="blue-gray"
+        className="font-medium"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          <Link to="/patient/dashboard">Dashboard</Link>
+        </ListItem>
+      </Typography>
+      <Typography
+        as="span"
         href="#"
         variant="small"
         color="blue-gray"
         className="font-medium"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Contact Us
+          <Link to="/search-doctor">Search Doctor</Link>
         </ListItem>
       </Typography>
     </List>
   );
 }
 
-export function NavbarWithMegaMenu() {
+export function NavbarPatient() {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -125,7 +96,7 @@ export function NavbarWithMegaMenu() {
       <Collapse open={openNav}>
         <NavList />
         <div className="flex items-center w-full gap-2 flex-nowrap lg:hidden">
-          <ProfileMenu role="doctor" />
+          <ProfileMenu role="patient" />
         </div>
       </Collapse>
     </Navbar>

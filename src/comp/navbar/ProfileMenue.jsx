@@ -1,31 +1,34 @@
 import React from "react";
 import {
-  LifebuoyIcon,
   PowerIcon,
-  InboxArrowDownIcon,
   Cog6ToothIcon,
   UserCircleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react";
-export default function ProfileMenu() {
+import {
+  Avatar,
+  Button,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+  Typography,
+} from "@material-tailwind/react";
+import { Link } from "react-router-dom";
+// eslint-disable-next-line react/prop-types
+export default function ProfileMenu({ role }) {
+  const link = role === "doctor" ? "/doctor/" : "/patient/";
+  console.log(role);
   const profileMenuItems = [
     {
-      label: "My Profile",
-      icon: UserCircleIcon,
-    },
-    {
-      label: "Edit Profile",
+      label: "Profile Settings",
       icon: Cog6ToothIcon,
     },
     {
-      label: "Inbox",
-      icon: InboxArrowDownIcon,
+      label: "Change Password",
+      icon: UserCircleIcon,
     },
-    {
-      label: "Help",
-      icon: LifebuoyIcon,
-    },
+
     {
       label: "Sign Out",
       icon: PowerIcon,
@@ -82,7 +85,10 @@ export default function ProfileMenu() {
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
               >
-                {label}
+                <Link to={link + label.toLowerCase().replace(/ /g, "-")}>
+                  {" "}
+                  {label}
+                </Link>
               </Typography>
             </MenuItem>
           );

@@ -9,15 +9,18 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 export default function NavListMenu({ navListMenuItems }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const role = "doctor";
+  const link = role === "doctor" ? "/doctor/" : "/";
   // eslint-disable-next-line react/prop-types
   const renderItems = navListMenuItems.map(
     ({ icon, title, description }, key) => (
-      <a href="#" key={key}>
+      <Link to={link + title.toLowerCase().replace(/ /g, "-")} key={key}>
         <MenuItem className="flex items-center gap-3 rounded-lg">
           <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
             {" "}
@@ -42,7 +45,7 @@ export default function NavListMenu({ navListMenuItems }) {
             </Typography>
           </div>
         </MenuItem>
-      </a>
+      </Link>
     )
   );
 
@@ -79,7 +82,7 @@ export default function NavListMenu({ navListMenuItems }) {
           </Typography>
         </MenuHandler>
         <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+          <ul className="grid grid-cols-3 outline-none gap-y-2 outline-0">
             {renderItems}
           </ul>
         </MenuList>

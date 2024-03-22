@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
-import { StickyNavbar } from "../navbar/NavBar.jsx";
-import { NavbarWithMegaMenu } from "../navbar/Navbar-doctor.jsx";
-import { NavbarPatient } from "../navbar/NavbarPatient.jsx";
+
+import NavbarCrr from "../navbar/NavbarCrr.jsx";
+import Footer from "../Footer/Footer.jsx";
 
 export default function Layout() {
   return (
     <>
-      <StickyNavbar />
-      {/* <NavbarWithMegaMenu /> */}
-      <NavbarPatient />
-
-      <Outlet />
+      <NavbarCrr />
+      <div className="min-h-screen">
+        <Outlet />
+      </div>
+      <Footer />
     </>
   );
 }

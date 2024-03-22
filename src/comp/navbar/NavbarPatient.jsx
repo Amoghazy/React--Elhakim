@@ -25,7 +25,19 @@ function NavList() {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
       </Typography>
-
+      <Typography
+        as="span"
+        variant="small"
+        color="blue-gray"
+        className="font-medium "
+      >
+        {" "}
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          <Link to={"/services"} className="flex items-center">
+            Services
+          </Link>
+        </ListItem>
+      </Typography>
       <Typography
         as="span"
         variant="small"
@@ -38,7 +50,16 @@ function NavList() {
       </Typography>
       <Typography
         as="span"
-        href="#"
+        variant="small"
+        color="blue-gray"
+        className="font-medium"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          <Link to="/get-appintemnt">Get Appintemnt</Link>
+        </ListItem>
+      </Typography>
+      <Typography
+        as="span"
         variant="small"
         color="blue-gray"
         className="font-medium"
@@ -71,13 +92,23 @@ export function NavbarPatient() {
             variant="h6"
             className="mr-4 cursor-pointer py-1.5 lg:ml-2"
           >
-            Material Tailwind
+            ElHaKiM
           </Typography>
           <div className="hidden lg:block">
             <NavList />
           </div>
         </div>
         <div className="hidden gap-2 lg:flex">
+          <Typography
+            as="span"
+            variant="small"
+            color="blue-gray"
+            className="font-medium"
+          >
+            <ListItem className="flex items-center gap-2 pr-4">
+              <Link to="/become-doctor">Become a Doctor ?</Link>
+            </ListItem>
+          </Typography>
           <ProfileMenu />
         </div>
         <IconButton
@@ -96,6 +127,16 @@ export function NavbarPatient() {
       <Collapse open={openNav}>
         <NavList />
         <div className="flex items-center w-full gap-2 flex-nowrap lg:hidden">
+          <Typography
+            as="span"
+            variant="small"
+            color="blue-gray"
+            className="font-medium"
+          >
+            <ListItem className="flex items-center gap-2 py-2 pr-4">
+              <Link to="/search-doctor">Search Doctor</Link>
+            </ListItem>
+          </Typography>
           <ProfileMenu role="patient" />
         </div>
       </Collapse>

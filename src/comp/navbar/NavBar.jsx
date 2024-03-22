@@ -6,9 +6,10 @@ import {
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export function StickyNavbar() {
+  const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function StickyNavbar() {
   }, []);
 
   const navList = (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
         as="li"
         variant="small"
@@ -36,7 +37,7 @@ export function StickyNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to={"/"} className="flex items-center">
+        <Link to={"/services"} className="flex items-center">
           Services
         </Link>
       </Typography>
@@ -44,7 +45,7 @@ export function StickyNavbar() {
   );
 
   return (
-    <Navbar className="sticky top-0 ron z-10 h-max max-w-full rounded-lg px-4 py-2 lg:px-8 lg:py-4">
+    <Navbar className="z-10 max-w-full px-4 py-2 rounded-none border-b-gray-200 ron h-max lg:px-8 lg:py-4">
       <div className="flex items-center justify-between text-blue-gray-900">
         <div className="flex items-center">
           <Typography
@@ -52,26 +53,32 @@ export function StickyNavbar() {
             href="#"
             className="mr-4 cursor-pointer py-1.5 font-bold"
           >
-            Material Tailwind
+            ElHaKiM
           </Typography>
-          <div className="mr-4 hidden lg:block">{navList}</div>{" "}
+          <div className="hidden mr-4 lg:block">{navList}</div>{" "}
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-x-1">
-            <Button variant="text" size="sm" className="hidden lg:inline-block">
-              <Link to={""}>Log In</Link>
+            <Button
+              onClick={() => navigate("/auth/login")}
+              variant="text"
+              size="sm"
+              className="hidden lg:inline-block"
+            >
+              <Link to={"auth/login"}>Log In</Link>
             </Button>
             <Button
+              onClick={() => navigate("/auth/register")}
               variant="gradient"
               size="sm"
               className="hidden lg:inline-block"
             >
-              <Link to={""}>Sign in</Link>
+              <Link to={"auth/register"}>Register</Link>
             </Button>
           </div>
           <IconButton
             variant="text"
-            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+            className="w-6 h-6 ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
             ripple={false}
             onClick={() => setOpenNav(!openNav)}
           >
@@ -79,7 +86,7 @@ export function StickyNavbar() {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                className="h-6 w-6"
+                className="w-6 h-6"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -93,7 +100,7 @@ export function StickyNavbar() {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -111,11 +118,23 @@ export function StickyNavbar() {
       <Collapse open={openNav}>
         {navList}
         <div className="flex items-center gap-x-1">
-          <Button fullWidth variant="text" size="sm" className="">
-            <span>Log In</span>
+          <Button
+            onClick={() => navigate("/auth/login")}
+            fullWidth
+            variant="text"
+            size="sm"
+            className=""
+          >
+            <Link to={"auth/login"}>Log In</Link>
           </Button>
-          <Button fullWidth variant="gradient" size="sm" className="">
-            <span>Sign in</span>
+          <Button
+            onClick={() => navigate("/auth/register")}
+            fullWidth
+            variant="gradient"
+            size="sm"
+            className=""
+          >
+            <Link to={"auth/register"}>Sign Up</Link>
           </Button>
         </div>
       </Collapse>

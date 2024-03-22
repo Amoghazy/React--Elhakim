@@ -80,7 +80,7 @@ function NavList() {
   );
 }
 
-export function NavbarWithMegaMenu() {
+export function NavbarDr() {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -100,7 +100,7 @@ export function NavbarWithMegaMenu() {
             variant="h6"
             className="mr-4 cursor-pointer py-1.5 lg:ml-2"
           >
-            Material Tailwind
+            ElHaKiM
           </Typography>
           <div className="hidden lg:block">
             <NavList />

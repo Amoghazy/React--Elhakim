@@ -13,6 +13,11 @@ import PatientDashboard from "./comp/Patient/patient-dashboard/PatientDashboard.
 import ProfileSitting from "./comp/Patient/ProfileSetting/ProfileSetting.jsx";
 import ChangePassword from "./comp/Patient/ChangePassword/ChangePassword.jsx";
 import SerarchDR from "./comp/Patient/SearchDr/SerarchDR.jsx";
+import LoginPage from "./comp/auth/LoginPage.jsx";
+import Register from "./comp/auth/Register.jsx";
+import ServiceMain from "./comp/Services/ServiceMain.jsx";
+import BecomeDoctor from "./comp/BecomeDoctor/BecomeDoctor.jsx";
+import Appointment from "./comp/Patient/GetAppintemnt/Appointment/Appointment.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +25,32 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Home />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/become-doctor",
+        element: <BecomeDoctor />,
+      },
+      {
+        path: "services",
+        element: <ServiceMain />,
+      },
+      {
+        path: "auth/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "auth/register",
+        element: <Register />,
+      },
+      {
+        path: "get-appintemnt",
+        element: <Appointment />,
       },
 
       {

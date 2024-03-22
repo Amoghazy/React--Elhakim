@@ -15,8 +15,12 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { removeToken } from "../../ReduxTK/Slices/tokenSlice.js";
+import { useDispatch } from "react-redux";
+import { removeuserInfo } from "../../ReduxTK/Slices/userInfoSlice.js";
 // eslint-disable-next-line react/prop-types
 export default function ProfileMenu({ role }) {
+  const dispatch = useDispatch();
   const link = role === "doctor" ? "/doctor/" : "/patient/";
   console.log(role);
   const profileMenuItems = [
@@ -85,10 +89,23 @@ export default function ProfileMenu({ role }) {
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
               >
-                <Link to={link + label.toLowerCase().replace(/ /g, "-")}>
-                  {" "}
-                  {label}
-                </Link>
+                {label === "Sign Out" ? (
+                  <Link
+                    onClick={() => {
+                      dispatch(removeToken());
+                      dispatch(removeuserInfo());
+                    }}
+                    to={"/auth/login"}
+                  >
+                    {" "}
+                    {label}
+                  </Link>
+                ) : (
+                  <Link to={link + label.toLowerCase().replace(/ /g, "-")}>
+                    {" "}
+                    {label}
+                  </Link>
+                )}
               </Typography>
             </MenuItem>
           );

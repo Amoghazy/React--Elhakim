@@ -11,7 +11,7 @@ import {
 import Spinner from "../../../Spinner.jsx";
 import { Link } from "react-router-dom";
 export default function Today() {
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(3);
   const [page, setPage] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -32,26 +32,26 @@ export default function Today() {
   }, [isLoadingUpdate, refetch]);
   if (isLoading) return <Spinner />;
   console.log(apptDATA);
-  const numPages = limit > 0 ? Math.ceil(apptDATA.data.data.length / limit) : 1;
   Modal.setAppElement("#root");
+  function toLocalISOString(date) {
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+    return adjustedDate.toISOString().split("T")[0];
+  }
   const today = new Date().toISOString().split("T")[0];
   const todaygAppt = apptDATA.data.data.filter((app) => {
-    console.log(new Date(new Date(app.date).toISOString().split("T")[0]));
-    console.log(today);
-    if (
-      new Date(new Date(app.date).toISOString().split("T")[0]) ===
-      new Date(today)
-    ) {
+    const date = new Date(app.date);
+    const localDateISOString = toLocalISOString(date);
+    if (localDateISOString == today) {
       return app;
     }
   });
+  const numPages = limit > 0 ? Math.ceil(todaygAppt.length / limit) : 1;
+
   const indexOfLastItem = page * limit;
   const indexOfFirstItem = indexOfLastItem - limit;
-  const currentItems = apptDATA.data.data.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-  console.log(todaygAppt);
+  const currentItems = todaygAppt.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div>
       <div className="overflow-auto w-full shadow h-[325px] max-h-[325px] overflow-y-auto border-2 border-gray-200 rounded">
@@ -79,7 +79,7 @@ export default function Today() {
             </tr>
           </thead>
           <tbody className="content-center text-gray-700">
-            {todaygAppt.map((item, index) =>
+            {currentItems.map((item, index) =>
               item.status === "zzz" ? null : (
                 <tr key={index} className="hover:bg-gray-200">
                   <td className="p-2 pr-10 text-sm tracking-wide text-left border-b border-gray-200 whitespace-nowrap">

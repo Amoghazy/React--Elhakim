@@ -64,7 +64,8 @@ export default function FormSignin() {
         dispatch(setToken(result.token));
       }
     } catch (error) {
-      console.error("error", error);
+      console.error("error", error.data.message);
+      alert(error.data.message);
     }
   };
   const {

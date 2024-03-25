@@ -29,19 +29,24 @@ export default function Upcoming() {
     }
   }, [isLoadingUpdate, refetch]);
   if (isLoading) return <Spinner />;
+  function toLocalISOString(date) {
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+    return adjustedDate.toISOString().split("T")[0];
+  }
   const today = new Date().toISOString().split("T")[0];
   const upcomingAppt = apptDATA.data.data.filter((app) => {
-    if (
-      isAfter(
-        new Date(new Date(app.date).toISOString().split("T")[0]),
-        new Date(today)
-      )
-    ) {
+    const date = new Date(app.date);
+    const localDateISOString = toLocalISOString(date);
+    // if (localDateISOString == today) {
+    //   return app;
+    // }
+    if (isAfter(new Date(localDateISOString), new Date())) {
       return app;
     }
   });
 
-  const numPages = limit > 0 ? Math.ceil(apptDATA.data.data.length / limit) : 1;
+  const numPages = limit > 0 ? Math.ceil(upcomingAppt.length / limit) : 1;
   function isAfter(date1, date2) {
     if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
       throw new Error("Both arguments must be Date objects");
@@ -63,10 +68,7 @@ export default function Upcoming() {
   const indexOfLastItem = page * limit;
   const indexOfFirstItem = indexOfLastItem - limit;
 
-  const currentItems = apptDATA.data.data.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentItems = upcomingAppt.slice(indexOfFirstItem, indexOfLastItem);
   return (
     <div>
       <div className="overflow-auto w-full shadow h-[325px] max-h-[325px] overflow-y-auto border-2 border-gray-200 rounded">
@@ -94,7 +96,7 @@ export default function Upcoming() {
             </tr>
           </thead>
           <tbody className="content-center text-gray-700">
-            {upcomingAppt.map((item, index) =>
+            {currentItems.map((item, index) =>
               item.status === "zzz" ? null : (
                 <tr key={index} className="hover:bg-gray-200">
                   <td className="p-2 pr-10 text-sm tracking-wide text-left border-b border-gray-200 whitespace-nowrap">

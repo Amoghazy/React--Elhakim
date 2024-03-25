@@ -22,6 +22,7 @@ import ChangePasswordDr from "./comp/DR/ChangePassword/ChangePasswordDr";
 import GurdDR from "./Gurd/GurdDR.jsx";
 import GurdPatient from "./Gurd/GurdPatient.jsx";
 import AboutMe from "./comp/DR/AboutME/Aboutme.jsx";
+import AddPrescription from "./comp/DR/AddPrescription/AddPrescription";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
           </GurdDR>
         ),
         children: [
+          {
+            path: "add-prescription",
+            element: <AddPrescription />,
+          },
           {
             path: "patients-list",
             element: <MYPAtient />,

@@ -144,7 +144,10 @@ export default function Upcoming() {
                   </td>
                   <td className="p-2 py-3 text-sm tracking-wide text-left border-b border-gray-200 whitespace-nowrap ">
                     <div className="flex">
-                      <Link className="px-2 py-1 mr-2 text-blue-900 bg-blue-100 rounded btn">
+                      <Link
+                        className="px-2 py-1 mr-2 text-blue-900 bg-blue-100 rounded btn"
+                        to={`/doctor/add-prescription?booking=${item._id}&doctor=${doctorId}&user=${item.user._id}`}
+                      >
                         <FontAwesomeIcon icon={faEye} /> View
                       </Link>
                     </div>

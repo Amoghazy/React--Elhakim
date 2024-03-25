@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 export default function AddPrescription() {
+  const { doctor, user, booking } = useParams();
+  console.log(doctor, user, booking);
   const [drugIterator, setDrugIterator] = useState([1]);
   const validationSchema = Yup.object({
     symptoms: Yup.string()
@@ -25,6 +28,15 @@ export default function AddPrescription() {
   });
   const addPrescription = (values) => {
     console.log(values);
+    values.user = user;
+    values.doctor = doctor;
+    values.booking = booking;
+
+    axios
+      .post("http://localhost:3000/api/v1/prescription", values)
+      .then((response) => {
+        console.log(response.data);
+      });
   };
   let formData = useFormik({
     initialValues: {
@@ -94,7 +106,7 @@ export default function AddPrescription() {
                         <label className="text-sm">Drug Name</label>
                         <input
                           type="text"
-                          name={`medicines[${index}].drug`}
+                          name={"drug"}
                           value={item.drug}
                           onChange={(e) => handleMedicineChange(e, index)}
                           onBlur={formData.handleBlur}
@@ -105,7 +117,7 @@ export default function AddPrescription() {
                         <label className="text-sm">Dosage</label>
                         <input
                           type="text"
-                          name={`medicines[${index}].dosage`}
+                          name={"dosage"}
                           value={item.dosage}
                           onChange={(e) => handleMedicineChange(e, index)}
                           onBlur={formData.handleBlur}
@@ -116,7 +128,7 @@ export default function AddPrescription() {
                         <label className="text-sm">Instructions</label>
                         <input
                           type="text"
-                          name={`medicines[${index}].instructions`}
+                          name={"instructions"}
                           value={item.instructions}
                           onChange={(e) => handleMedicineChange(e, index)}
                           onBlur={formData.handleBlur}
@@ -174,7 +186,19 @@ export default function AddPrescription() {
         <button
           className="p-2 mt-2 font-bold text-white bg-green-300 rounded"
           type="submit"
-          onClick={() => console.log(formData.values)}
+          onClick={() => {
+            formData.values.user = user;
+            formData.values.doctor = doctor;
+            formData.values.booking = booking;
+            axios
+              .post(
+                "http://localhost:3000/api/v1/prescription",
+                formData.values
+              )
+              .then((response) => {
+                console.log(response.data);
+              });
+          }}
         >
           Save{" "}
         </button>

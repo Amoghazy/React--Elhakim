@@ -43,8 +43,12 @@ export default function OurDoctors() {
           whileInView="whileInView"
           className="flex flex-wrap justify-around"
         >
-          {doctors.map((doctor) => (
-            <Doctor variants={childVariant} key={doctor._id} doctor={doctor} />
+          {doctors.map((doctor, index) => (
+            <Doctor
+              variants={childVariant}
+              key={doctor._id + index}
+              doctor={doctor}
+            />
           ))}
         </motion.div>
       </div>

@@ -7,13 +7,15 @@ import Calendar from "react-calendar";
 
 const AppointmentHeader = ({ handleDateChange, selectedDate }) => {
   const tileClassName = ({ date, view }) => {
-    
     if (
       view === "month" &&
       date.toDateString() === selectedDate.toDateString()
     ) {
       return "react-calendar__tile--selected";
     }
+  };
+  const tileDisabled = ({ date, view }) => {
+    return view === "month" && date < new Date();
   };
   return (
     <>
@@ -24,11 +26,11 @@ const AppointmentHeader = ({ handleDateChange, selectedDate }) => {
             <Calendar
               onChange={(e) => {
                 handleDateChange(e);
-                console.log(e);
               }}
               value={new Date()}
               className="calendar"
               tileClassName={tileClassName}
+              tileDisabled={tileDisabled}
             />
           </div>
         </div>

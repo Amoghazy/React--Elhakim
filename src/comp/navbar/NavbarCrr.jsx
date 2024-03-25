@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 export default function NavbarCrr() {
   const { role } = useSelector((state) => state.userInfo);
 
-  console.log(role);
   if (role === null) {
     return <StickyNavbar />;
   }

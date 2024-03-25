@@ -58,7 +58,7 @@ const AboutUS = () => {
             {" "}
             Exceptional Dental Care, on Your Terms{" "}
           </h1>
-          <p className="mb-2 text-secondary">
+          <p className="mt-3 mb-2 leading-8 text-cyan-900">
             In the realm of dental excellence, where precision meets passion, we
             believe in a philosophy that transcends the ordinary. We offer a
             sanctuary for your smile, where cutting-edge technology and timeless
@@ -68,8 +68,6 @@ const AboutUS = () => {
             dental aspirations are the canvas upon which we paint a masterpiece
             of care.
           </p>
-
-          <button className="button-primary"> Learn Mone</button>
         </motion.div>
       </div>
     </motion.section>

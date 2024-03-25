@@ -55,7 +55,7 @@ function NavList() {
         className="font-medium"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
-          <Link to="/get-appintemnt">Get Appintemnt</Link>
+          <Link to={"/get-appintemnt"}>Get Appintemnt</Link>
         </ListItem>
       </Typography>
       <Typography

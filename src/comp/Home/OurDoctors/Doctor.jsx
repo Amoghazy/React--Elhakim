@@ -15,7 +15,6 @@ export default function Doctor({ doctor, variants }) {
         <h5 className="text-lg font-bold"> {doctor.name} </h5>
         <small className="flex items-center justify-center text-sm font-bold text-gray-400 ">
           <PhoneArrowDownLeftIcon
-            meicon
             height={"16"}
             width={"16"}
             className="text-cyan-300 me-1"

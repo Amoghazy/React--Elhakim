@@ -1,15 +1,26 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { useUpdateUserMutation } from "../../ReduxTK/api/user-api.js";
+import axios from "axios";
 
 export default function FormBecomeDR() {
   const [cv, setCv] = useState(null);
-  const [card, setCard] = useState(null);
+  const [licensedID, setlicensedID] = useState(null);
+  const [updateUser, { isLoading, isSuccess }] = useUpdateUserMutation();
+  const id_user = sessionStorage.getItem("id_user");
   const uploadFile = () => {
     const formData = new FormData();
 
     formData.append("cv", cv);
-    formData.append("card", card);
+    formData.append("licensedID", licensedID);
+    formData.append("role", "doctor");
+    formData.append("price", "100");
+    updateUser({ id: id_user, data: formData })
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+      });
   };
   const {
     handleChange,
@@ -25,10 +36,7 @@ export default function FormBecomeDR() {
       card: "",
       grantee: false,
     },
-    onSubmit: (values) => {
-      console.log(values);
-      console.log(card);
-      console.log(cv);
+    onSubmit: () => {
       uploadFile();
     },
     validationSchema: Yup.object().shape({
@@ -79,7 +87,7 @@ export default function FormBecomeDR() {
             <input
               onChange={(e) => {
                 handleChange(e);
-                setCard(e.target.files[0]);
+                setlicensedID(e.target.files[0]);
               }}
               onBlur={handleBlur}
               className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-purple-500"

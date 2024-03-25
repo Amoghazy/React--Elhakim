@@ -1,9 +1,34 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import { useState } from "react";
 import AppointmentForm from "../AppointmentForm/AppointmentForm";
+import { useParams } from "react-router-dom";
+import { useGetInfoAboutUserQuery } from "../../../../ReduxTK/api/user-api.js";
+import Spinner from "../../../Spinner.jsx";
 
 const BookingCard = ({ booking, date }) => {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const { doctor_id } = useParams();
+  let chooseDR;
+  const {
+    data: infoDR,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetInfoAboutUserQuery(doctor_id, {
+    skip: !doctor_id,
+  });
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (isSuccess) {
+    if (infoDR.data.data?.role && infoDR.data.data?.approved) {
+      chooseDR = infoDR.data.data;
+    }
+  }
+  if (isError) {
+    console.log(error);
+  }
   function openModal() {
     setIsOpen(true);
   }
@@ -35,6 +60,7 @@ const BookingCard = ({ booking, date }) => {
             appointmentSub={booking.subject}
             schedule={booking.visitingHour}
             date={date}
+            chooseDR={chooseDR}
           />
         </div>
       </div>

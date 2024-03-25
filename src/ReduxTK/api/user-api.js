@@ -4,23 +4,31 @@ const userApiSlice = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_Base_Url,
-    prepareHeaders: (headers, { getState }) => {
-      console.log(getState().token);
+    prepareHeaders: (headers) => {
       const token = sessionStorage.getItem("token");
-      console.log(token);
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
+  tagTypes: ["InfoUser"],
   endpoints: (builder) => ({
     getInfoAboutUser: builder.query({
-      query: () => ({
-        url: `api/v1/users/me`,
+      query: (id) => ({
+        url: `api/v1/users/${id}`,
       }),
+      providesTags: ["InfoUser"],
+    }),
+    updateUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `api/v1/users/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["InfoUser"],
     }),
   }),
 });
-export const { useGetInfoAboutUserQuery } = userApiSlice;
+export const { useGetInfoAboutUserQuery, useUpdateUserMutation } = userApiSlice;
 export default userApiSlice;

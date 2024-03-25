@@ -21,11 +21,6 @@ import NavListMenu from "./NavList.jsx";
 
 const navListMenuItems = [
   {
-    title: "Reviews",
-    description: "Find the perfect solution for your needs.",
-    icon: SquaresPlusIcon,
-  },
-  {
     title: "Patients List",
     description: "Meet and learn about our dedication",
     icon: UserGroupIcon,
@@ -39,16 +34,6 @@ const navListMenuItems = [
     title: "Dashboard",
     description: "Learn how we can help you achieve your goals.",
     icon: SunIcon,
-  },
-  {
-    title: "Invoices",
-    description: "Reach out to us for assistance or inquiries",
-    icon: GlobeAmericasIcon,
-  },
-  {
-    title: "Contact",
-    description: "Find the perfect solution for your needs.",
-    icon: PhoneIcon,
   },
 ];
 

@@ -17,23 +17,45 @@ import { setToken } from "../../ReduxTK/Slices/tokenSlice.js";
 import { useGetInfoAboutUserQuery } from "../../ReduxTK/api/user-api.js";
 import { setuserInfo } from "../../ReduxTK/Slices/userInfoSlice.js";
 import { useEffect } from "react";
+import { useGetAllDoctorsQuery } from "../../ReduxTK/api/appointement-api.js";
+import { SetAllDoctors } from "../../ReduxTK/Slices/AllDoctorsSlice.js";
 export default function FormSignin() {
   const navigate = useNavigate();
   const [login, { isLoading, isError }] = useLoginMutation();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
+  const id = sessionStorage.getItem("id_user");
+  console.log(token);
   const { data: userInfo, isSuccess: isSuccessUser } = useGetInfoAboutUserQuery(
-    undefined,
+    id,
     {
       skip: !token,
     }
   );
+  const {
+    data: allDoctors,
+    isLoading: isLoadingDoctors,
+    isSuccess: isSuccessDoctors,
+  } = useGetAllDoctorsQuery();
   useEffect(() => {
     if (token && isSuccessUser) {
       dispatch(setuserInfo(userInfo.data.data));
-      navigate("/");
+      if (!isLoadingDoctors && isSuccessDoctors) {
+        console.log(allDoctors.data.data);
+        dispatch(SetAllDoctors(allDoctors.data.data));
+        navigate("/");
+      }
     }
-  }, [token, isSuccessUser, dispatch, navigate, userInfo]);
+  }, [
+    token,
+    isSuccessUser,
+    dispatch,
+    navigate,
+    userInfo,
+    isLoadingDoctors,
+    isSuccessDoctors,
+    allDoctors,
+  ]);
   const handleLogin = async (values) => {
     try {
       const result = await login(values).unwrap();

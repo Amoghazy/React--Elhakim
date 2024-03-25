@@ -2,15 +2,12 @@ import { Helmet } from "react-helmet-async";
 import styles from "./home.module.css";
 import { CarouselWithContent } from "./Carsuel.jsx";
 
-import { useSelector } from "react-redux";
 import AboutUS from "./AboutUs/About.jsx";
 import Services from "./Service/Services.jsx";
 import OurDoctors from "./OurDoctors/OurDoctors";
 import Location from "./Location/Location.jsx";
 import { LocatinCard } from "./Location/LocatinCard.jsx";
 export default function Home() {
-  const state = useSelector((state) => state.token);
-  console.log(state);
   return (
     <>
       <Helmet>

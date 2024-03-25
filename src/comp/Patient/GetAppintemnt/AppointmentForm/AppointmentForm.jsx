@@ -2,6 +2,8 @@
 import "./AppointmentForm.css";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useMakeNewAppointementMutation } from "../../../../ReduxTK/api/appointement-api.js";
 
 const customStyles = {
   content: {
@@ -20,22 +22,36 @@ const AppointmentForm = ({
   modalIsOpen,
   closeModal,
   appointmentSub,
-
+  chooseDR,
   date,
 }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const { userInfo } = useSelector((state) => state);
+  let { allDoctors } = useSelector((state) => state);
+  const arrayDoctors = [];
+  for (const [key, value] of Object.entries(allDoctors)) {
+    if (key == "_persist") continue;
+    arrayDoctors.push(value);
+  }
+  const [addBook, { isLoading, isSuccess }] = useMakeNewAppointementMutation();
+  const onSubmit = async (data) => {
     data.service = appointmentSub;
     data.date = date.toDateString();
-    data.created = new Date();
-    data.action = "pending";
+    if (chooseDR?._id) {
+      data.doctor = chooseDR?._id;
+    }
+    data.user = userInfo?._id;
+    const res = await addBook(data).unwrap();
+    console.log(res);
+    reset({ age: "", doctor: "", service: "", date: "" });
+    closeModal();
   };
-
   return (
     <div>
       <Modal
@@ -43,60 +59,57 @@ const AppointmentForm = ({
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel=" Modal"
       >
         <h2 className="mt-3 text-2xl text-center"> {appointmentSub} </h2>
         <p className="mb-0 text-center text-cyan-200">
           {" "}
-          On {date.toDateString()}{" "}
+          On {date.toDateString()}
         </p>
 
         <form className="w-[30rem] py-5 px-9" onSubmit={handleSubmit(onSubmit)}>
           <input
-            // {...register("urname", { required: true })}
-            className="bg-gray-500 form-control form-control-lg"
+            className="bg-gray-300 form-control form-control-lg"
             type="text"
             value={appointmentSub}
-            readOnly
+            disabled
           />
+          <div className="py-2 ">
+            {chooseDR?._id ? (
+              <input
+                className="bg-gray-300 form-control form-control-lg"
+                type="text"
+                // {...register("doctor", { required: true })}
+                value={"Dr / " + chooseDR?.name}
+                disabled
+              />
+            ) : (
+              <select
+                className="form-control"
+                name="doctor"
+                {...register("doctor", { required: true })}
+              >
+                <option disabled={true} value="Not Selected">
+                  Select Doctor
+                </option>
+                {arrayDoctors?.map((doctor) => (
+                  <option key={doctor?._id} value={doctor?._id}>
+                    Dr /{doctor?.name}
+                  </option>
+                ))}
+              </select>
+            )}
 
-          <input
-            {...register("urname", { required: true })}
-            className="mt-2 form-control form-control-lg"
-            type="text"
-            name="urname"
-            placeholder="Your Name"
-          />
-          {errors.urname && (
-            <span className="text-red-500"> This field is required </span>
-          )}
-          <input
-            {...register("phone", { required: true })}
-            className="mt-2 form-control form-control-lg"
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-          />
-          {errors.phone && (
-            <span className="text-red-500"> This field is required </span>
-          )}
-          <input
-            {...register("email", { required: true })}
-            className="mt-2 mb-2 form-control form-control-lg"
-            type="text"
-            name="email"
-            placeholder="Email "
-          />
-          {errors.email && (
-            <span className="text-red-500"> This field is required </span>
-          )}
+            {errors.doctor && (
+              <span className="text-red-500">This field is required</span>
+            )}
+          </div>
 
           <div className="py-2 mb-3">
             <select
               className="form-control"
-              name="schedule"
-              //   ref={register({ required: true })}
-              {...register("schedule", { required: true })}
+              name="time"
+              {...register("time", { required: true })}
             >
               <option disabled={true} value="Not Selected">
                 Select Time
@@ -108,54 +121,21 @@ const AppointmentForm = ({
               <option value="5:00 AM - 9:00 PM">5:00 AM - 9:00 PM</option>
               <option value="11:00 AM - 5:00 PM">11:00 AM - 5:00 PM</option>
             </select>
-            {errors.date && (
+            {errors.schedule && (
               <span className="text-red-500">This field is required</span>
             )}
           </div>
 
           <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3 mb-6 md:w-1/3">
-              <select
-                {...register("gender", { required: true })}
-                name="gender"
-                className="py-2 mt-1 form-control"
-                // className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                id="gender"
-              >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              {errors.gender && (
-                <span className="text-xs italic text-red-500">
-                  This field is required
-                </span>
-              )}
-            </div>
-
-            <div className="w-full px-3 mb-6 md:w-1/3">
               <input
                 {...register("age", { required: true })}
-                type="text"
+                type="number"
                 name="age"
                 className="mt-1 form-control"
                 placeholder="Age"
               />
               {errors.age && (
-                <span className="text-xs italic text-red-500">
-                  This field is required
-                </span>
-              )}
-            </div>
-
-            <div className="w-full px-3 mb-6 md:w-1/3">
-              <input
-                {...register("weight", { required: true })}
-                type="text"
-                name="weight"
-                className="mt-1 form-control"
-                placeholder="Weight"
-              />
-              {errors.weight && (
                 <span className="text-xs italic text-red-500">
                   This field is required
                 </span>

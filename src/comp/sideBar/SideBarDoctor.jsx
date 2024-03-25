@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Card,
   List,
@@ -14,63 +15,66 @@ import {
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
+  MapPinIcon,
+  CalendarIcon,
 } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
-export function DefaultSidebar() {
+export function DoctorSidebar() {
+  const userInfo = useSelector((state) => state.userInfo);
+  const doctorId = "1";
+  function fetchDr() {}
   return (
-    <Card className="border-slate-500/50 rounded-md border-2 	    max-w-[20rem] p-4  ">
-      <div className="p-4 mb-2">
+    <Card className="overflow-auto rounded-lg w-full border-slate-500/50 border-2 p-4  sticky top-14 pt-5 h-[600px]">
+      <div className="p-4 mb-2 text-center">
         <Avatar
-          src="https://docs.material-tailwind.com/img/face-2.jpg"
+          src={`http://localhost:3000/upload/${userInfo.photo}`}
           alt="avatar"
           size="xxl"
+          className=""
         />
+        <h3 className="pt-2 font-bold text-black">Dr. {userInfo.name}</h3>
       </div>
       <List>
-        <ListItem>
+        <ListItem className="mx-auto text-center">
           <ListItemPrefix>
             <PresentationChartBarIcon className="w-5 h-5" />
           </ListItemPrefix>
-          Dashboard
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <ShoppingBagIcon className="w-5 h-5" />
-          </ListItemPrefix>
-          E-Commerce
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="w-5 h-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue-gray"
-              className="rounded-full"
-            />
-          </ListItemSuffix>
+          <Link to={"/doctor/dashboard"}>Dashboard</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <UserCircleIcon className="w-5 h-5" />
           </ListItemPrefix>
-          Profile
+          <Link to={"/doctor/patients-list"}>My Patients</Link>
+        </ListItem>
+
+        <ListItem>
+          <ListItemPrefix>
+            <CalendarIcon className="w-5 h-5" />
+          </ListItemPrefix>
+          <Link to={"/doctor/appointments"}>Appointments</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <Cog6ToothIcon className="w-5 h-5" />
           </ListItemPrefix>
-          Settings
+          <Link to={"/doctor/profile-settings"}>Profile Settings</Link>
+        </ListItem>
+        <ListItem>
+          <ListItemPrefix>
+            <FontAwesomeIcon icon={faLock} className="ml-1" />
+          </ListItemPrefix>
+          <Link to={"/doctor/change-password"}>Change Password</Link>
         </ListItem>
         <ListItem>
           <ListItemPrefix>
             <PowerIcon className="w-5 h-5" />
           </ListItemPrefix>
-          Log Out
+          <Link to={"/"}>Logout</Link>
         </ListItem>
       </List>
     </Card>

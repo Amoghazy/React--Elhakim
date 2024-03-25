@@ -5,6 +5,7 @@ import {
   UserCircleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -16,13 +17,14 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { removeToken } from "../../ReduxTK/Slices/tokenSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { persistor } from "../../ReduxTK/Store.js";
 import { removeuserInfo } from "../../ReduxTK/Slices/userInfoSlice.js";
 // eslint-disable-next-line react/prop-types
-export default function ProfileMenu({ role }) {
+export default function ProfileMenu() {
+  const userInfo = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
-  const link = role === "doctor" ? "/doctor/" : "/patient/";
-  console.log(role);
+  const link = userInfo.role === "doctor" ? "/doctor/" : "/patient/";
   const profileMenuItems = [
     {
       label: "Profile Settings",
@@ -42,7 +44,21 @@ export default function ProfileMenu({ role }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    dispatch(removeToken());
+    dispatch(removeuserInfo());
+    persistor
+      .purge()
+      .then(() => {
+        navigate("/auth/login");
+        console.log("Purge of persistent state completed");
+      })
+      .catch((error) =>
+        console.error("Purge of persistent state failed", error)
+      );
+  };
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -56,7 +72,7 @@ export default function ProfileMenu({ role }) {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            src={`http://localhost:3000/upload/${userInfo.photo}`}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -90,16 +106,7 @@ export default function ProfileMenu({ role }) {
                 color={isLastItem ? "red" : "inherit"}
               >
                 {label === "Sign Out" ? (
-                  <Link
-                    onClick={() => {
-                      dispatch(removeToken());
-                      dispatch(removeuserInfo());
-                    }}
-                    to={"/auth/login"}
-                  >
-                    {" "}
-                    {label}
-                  </Link>
+                  <Link onClick={handleSignOut}> {label}</Link>
                 ) : (
                   <Link to={link + label.toLowerCase().replace(/ /g, "-")}>
                     {" "}

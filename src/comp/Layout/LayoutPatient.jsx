@@ -1,14 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { DefaultSidebar } from "../sideBar/SideBarDoctor";
-import { Alert } from "@material-tailwind/react";
+import { SideBarPatient } from "../sideBar/SideBarPatient.jsx";
+import BreadCrumb from "../BreadCrumb/BreadCrumb.jsx";
 export default function LayoutPatient() {
   return (
     <>
-      <Alert color="cyan" className="mb-4 rounded-none ">
-        Patient
-      </Alert>
+      <BreadCrumb />
       <div className="flex justify-between w-full p-7">
-        <DefaultSidebar />
+        <SideBarPatient />
         <div className="w-full ps-6">
           <Outlet />
         </div>

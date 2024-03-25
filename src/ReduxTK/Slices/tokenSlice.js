@@ -11,6 +11,7 @@ const tokenSlice = createSlice({
       sessionStorage.setItem("id_user", id);
 
       return state;
+      
     },
     removeToken: () => {
       sessionStorage.removeItem("token");

@@ -1,15 +1,17 @@
 import { Outlet } from "react-router-dom";
-import { DefaultSidebar } from "./../sideBar/SideBarDoctor";
-import { Alert } from "@material-tailwind/react";
+import { DoctorSidebar } from "../sideBar/SideBarDoctor";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 export default function LayoutDR() {
   return (
     <>
-      <Alert color="cyan" className="mb-4 rounded-none ">
-        An info alert for showing message.
-      </Alert>
-      <div className="flex justify-between w-full p-7">
-        <DefaultSidebar />
-        <div className="w-full ps-6">
+      <BreadCrumb />
+      <div className="flex flex-wrap justify-around w-full p-3 md:flex-nowrap">
+        <div className="mt-5 w-full xl:w-[300px]">
+          <DoctorSidebar />
+        </div>
+
+        <div className="ml-2 mt-5 w-full xl:w-[1200px]">
+          
           <Outlet />
         </div>
       </div>

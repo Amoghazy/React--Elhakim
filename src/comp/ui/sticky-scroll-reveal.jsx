@@ -15,7 +15,6 @@ export const StickyScroll = ({ content, contentClassName }) => {
   const cardLength = content.length + 1;
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log(latest);
     const cardsBreakpoints = content.map((_, index) => index / cardLength);
     const closestBreakpointIndex = cardsBreakpoints.reduce(
       (acc, breakpoint, index) => {
